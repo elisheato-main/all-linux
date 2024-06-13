@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Linux Repo project
+        run: |
+          # Add your build commands here if necessary
+          echo "Building Linux Repo project"
+
+      - name: Deploy to projects repository
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git clone https://github.com/elisheato-main/main-repo.git
+          cd main-repo
+          git checkout main
+          rm -rf all-linux
+          cp -r ../all-linux ./all-linux
+          git add .
+          git commit -m "Deploy all-linux to subdirectory"
+          git push
