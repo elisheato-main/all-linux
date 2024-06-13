@@ -10,25 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Set up Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install  
+        run: npm install
 
-      - name: Build Linux Repo project
+      - name: Build project
         run: |
-          # Add your build commands here if necessary
-          echo "Building Linux Repo project"
+          # Add your build commands here
+          npm run build
 
       - name: Deploy to projects repository
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git clone https://github.com/elisheato-main/main-repo.git
-          cd main-repo
+          cd projects
           git checkout main
           rm -rf all-linux
           cp -r ../all-linux ./all-linux
